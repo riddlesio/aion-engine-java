@@ -36,6 +36,10 @@ public class AionMove extends AbstractMove {
     private Integer fee;
     private MoveType moveType;
 
+    public AionMove() {
+        this.moveType = MoveType.PASS;
+    }
+
     public AionMove(String side1, String side2, int fee) {
         this.side1 = side1;
         this.side2 = side2;

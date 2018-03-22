@@ -31,7 +31,8 @@ import java.util.Map;
  */
 public enum MoveType {
     BUILD,
-    REMOVE;
+    REMOVE,
+    PASS;
 
     private static final Map<String, MoveType> TYPE_MAP = new HashMap<>();
 

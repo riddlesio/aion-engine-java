@@ -39,10 +39,12 @@ public class AionMoveDeserializer extends AbstractMoveDeserializer<AionMove> {
 
     @Override
     protected AionMove visitMove(String input) throws InvalidInputException {
-//        TODO: test pass move
-
         String[] split = input.split(" ");
         MoveType moveType = parseMoveType(split[0]);
+
+        if (moveType == MoveType.PASS) {
+            return new AionMove();
+        }
 
         if (moveType == MoveType.BUILD && split.length != 3) {
             throw new InvalidInputException("Move doesn't split into 3 parts");

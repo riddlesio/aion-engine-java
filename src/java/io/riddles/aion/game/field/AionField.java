@@ -129,7 +129,7 @@ public class AionField {
     }
 
     public void processMove(AionMove move, AionPlayerState playerState) {
-        if (move.isInvalid()) return;
+        if (move.isInvalid() || move.getMoveType() == MoveType.PASS) return;
 
         Network side1 = getMoveNetwork(move.getSide1(), move);
         Network side2 = getMoveNetwork(move.getSide2(), move);
