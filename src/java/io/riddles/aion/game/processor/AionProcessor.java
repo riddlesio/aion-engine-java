@@ -65,6 +65,7 @@ public class AionProcessor extends SimpleProcessor<AionState, AionPlayer> {
 
     private void sendUpdates(AionState state) {
         for (AionPlayer player : this.playerProvider.getPlayers()) {
+            player.sendUpdate("round", state.getRoundNumber());
             player.sendUpdate("bridges", state.getField().bridgesToString());
             player.sendUpdate("transactions", state.getField().transactionsToString());
 

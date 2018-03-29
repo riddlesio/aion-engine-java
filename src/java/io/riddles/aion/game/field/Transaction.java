@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import io.riddles.aion.engine.AionEngine;
-import io.riddles.aion.game.state.AionPlayerState;
-import io.riddles.aion.game.state.AionState;
 
 /**
  * io.riddles.aion.game.field.Transaction - Created on 14-3-18
@@ -132,5 +130,13 @@ public class Transaction {
 
     public ArrayList<Bridge> getCurrentBridges() {
         return this.currentBridges;
+    }
+
+    public double getTravelCompletion() {
+        return this.travelCompletion;
+    }
+
+    public Network getPreviousNetwork() {
+        return this.previousNetwork;
     }
 }

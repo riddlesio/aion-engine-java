@@ -52,6 +52,7 @@ public class Bridge {
         this.id = bridge.id;
         this.playerId = bridge.playerId;
         this.fee = bridge.fee;
+        this.distance = bridge.distance;
         this.sides = new ArrayList<>();
 
         // Searches sides from networks that should be already cloned

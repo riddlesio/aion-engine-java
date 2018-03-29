@@ -180,7 +180,25 @@ public class AionField {
 
         bridge.getSides().get(0).removeBridge(bridge);
         bridge.getSides().get(1).removeBridge(bridge);
+        removeTransactions(bridge);
         this.bridges.remove(bridge);
+    }
+
+    private void removeTransactions(Bridge bridge) {
+        ArrayList<Transaction> floatingTransactions = new ArrayList<>();
+
+        for (Transaction transaction : this.transactions) {
+            if (!transaction.getCurrentBridges().contains(bridge)) continue;
+
+            transaction.getCurrentBridges().remove(bridge);
+
+            // Remove transaction if it no longer sits on any bridge
+            if (transaction.getCurrentBridges().size() <= 0) {
+                floatingTransactions.add(transaction);
+            }
+        }
+
+        floatingTransactions.forEach(t -> this.transactions.remove(t));
     }
 
     private Network getMoveNetwork(String code, AionMove move) {

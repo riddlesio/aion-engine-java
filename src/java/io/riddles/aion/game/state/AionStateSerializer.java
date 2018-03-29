@@ -22,7 +22,10 @@ package io.riddles.aion.game.state;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import io.riddles.aion.game.field.Bridge;
 import io.riddles.aion.game.field.Network;
@@ -75,8 +78,13 @@ public class AionStateSerializer extends AbstractSerializer<AionState> {
     private JSONArray visitSides(ArrayList<Network> sides) {
         JSONArray sidesArray = new JSONArray();
 
-        for (Network side : sides) {
-            sidesArray.put(side.getCode());
+        ArrayList<String> sortedCodes = sides.stream()
+                .map(Network::getCode)
+                .sorted()
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        for (String code : sortedCodes) {
+            sidesArray.put(code);
         }
 
         return sidesArray;
@@ -95,6 +103,11 @@ public class AionStateSerializer extends AbstractSerializer<AionState> {
             transactionObject.put("from", transaction.getFrom().getCode());
             transactionObject.put("to", transaction.getTo().getCode());
             transactionObject.put("current", current);
+
+            if (!transaction.getCurrentBridges().isEmpty()) {
+                transactionObject.put("travel", transaction.getTravelCompletion());
+                transactionObject.put("previous", transaction.getPreviousNetwork().getCode());
+            }
 
             transactionArray.put(transactionObject);
         }
