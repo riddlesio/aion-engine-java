@@ -30,13 +30,14 @@ import java.util.ArrayList;
  */
 public class Bridge {
 
-    private String id;
+    private int id;
     private int playerId;
     private ArrayList<Network> sides;
     private int fee;
     private double distance;
 
-    public Bridge(int playerId, int fee, Network side1, Network side2) {
+    public Bridge(int id, int playerId, int fee, Network side1, Network side2) {
+        this.id = id;
         this.playerId = playerId;
         this.fee = fee;
         this.sides = new ArrayList<>();
@@ -44,8 +45,6 @@ public class Bridge {
 
         addSide(side1);
         addSide(side2);
-
-        this.id = toString();
     }
 
     public Bridge(Bridge bridge, AionField field) {
@@ -74,7 +73,7 @@ public class Bridge {
         return String.format("%s-%s", this.sides.get(0).getCode(), this.sides.get(1).getCode());
     }
 
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 

@@ -44,6 +44,8 @@ public class AionField {
 
     private int width;
     private int height;
+    private int transactionCount;
+    private int bridgeCount;
     private ArrayList<Network> networks;
     private ArrayList<Bridge> bridges;
     private ArrayList<Transaction> transactions;
@@ -54,6 +56,8 @@ public class AionField {
 
         this.width = field.getInt("width");
         this.height = field.getInt("height");
+        this.transactionCount = 0;
+        this.bridgeCount = 0;
         this.networks = parseNetworks(networks);
         this.bridges = new ArrayList<>();
         this.transactions = new ArrayList<>();
@@ -62,6 +66,8 @@ public class AionField {
     public AionField(AionField field) {
         this.width = field.width;
         this.height = field.height;
+        this.transactionCount = field.transactionCount;
+        this.bridgeCount = field.bridgeCount;
 
         // ordering of cloning below is important
         this.networks = field.networks.stream()
@@ -86,9 +92,14 @@ public class AionField {
         }
     }
 
+    public void removeCompleteTransactions() {
+        this.transactions = this.transactions.stream()
+                .filter(t -> !t.isCompleted())
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     public void moveTransactions(AionState state) {
         ShortestPathHandler shortestPathHandler = new ShortestPathHandler(this.networks);
-        ArrayList<Transaction> completedTransactions = new ArrayList<>();
 
         for (Transaction transaction : this.transactions) {
 
@@ -121,11 +132,9 @@ public class AionField {
             }
 
             if (transaction.getCurrentNetwork() == transaction.getTo()) { // Goal reached
-                completedTransactions.add(transaction);
+                transaction.setCompleted();
             }
         }
-
-        completedTransactions.forEach(t -> this.transactions.remove(t));
     }
 
     public void processMove(AionMove move, AionPlayerState playerState) {
@@ -161,7 +170,10 @@ public class AionField {
 
         playerState.payStake(stakeAmount);
 
-        this.bridges.add(new Bridge(playerState.getPlayerId(), move.getFee(), side1, side2));
+        Bridge newBridge = new Bridge(
+                this.bridgeCount++, playerState.getPlayerId(), move.getFee(), side1, side2
+        );
+        this.bridges.add(newBridge);
     }
 
     private void processRemoveMove(AionMove move, AionPlayerState playerState) {
@@ -266,9 +278,9 @@ public class AionField {
                 ));
     }
 
-    public Bridge findBridge(String id) {
+    public Bridge findBridge(int id) {
         return this.bridges.stream()
-                .filter(b -> b.getId().equals(id))
+                .filter(b -> b.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException(
                         String.format("Bridge '%s' not found", id)
@@ -290,12 +302,14 @@ public class AionField {
     }
 
     public void addBridge(int playerId, int fee, String code1, String code2) {
-        Bridge bridge = new Bridge(playerId, fee, findNetwork(code1), findNetwork(code2));
+        Bridge bridge = new Bridge(
+                this.bridgeCount++, playerId, fee, findNetwork(code1), findNetwork(code2)
+        );
         this.bridges.add(bridge);
     }
 
     private void addTransaction(Network from, Network to) {
-        this.transactions.add(new Transaction(from, to));
+        this.transactions.add(new Transaction(this.transactionCount++, from, to));
     }
 
     public ArrayList<Network> getNetworks() {

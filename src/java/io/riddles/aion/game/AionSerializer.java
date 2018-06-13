@@ -47,6 +47,11 @@ public class AionSerializer extends AbstractGameSerializer<AionProcessor, AionSt
         game.put("field", AionEngine.fieldData.getJSONObject("field"));
         game.put("networks", AionEngine.fieldData.getJSONArray("networks"));
 
+        int transactionSpeed = AionEngine.configuration.getInt("transactionSpeed");
+        int initialCoins = AionEngine.configuration.getInt("initialCoins");
+        game.getJSONObject("settings").put("transactionSpeed", transactionSpeed);
+        game.getJSONObject("settings").put("initialCoins", initialCoins);
+
         return game;
     }
 }

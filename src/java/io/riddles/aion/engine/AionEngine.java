@@ -67,9 +67,9 @@ public class AionEngine extends AbstractEngine<AionProcessor, AionPlayer, AionSt
         Configuration configuration = new Configuration();
 
         configuration.put("dataFile", "/data.json");
-        configuration.put("transactionSpeed", 4);
-        configuration.put("initialTransactions", 4);
-        configuration.put("transactionRate", 2);
+        configuration.put("transactionSpeed", 8);
+        configuration.put("initialTransactions", 1);
+        configuration.put("transactionRate", 1);
         configuration.put("initialCoins", 500);
         configuration.put("maxRounds", 100);
         configuration.put("stakeAmount", 100);

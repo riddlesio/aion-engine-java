@@ -33,23 +33,28 @@ import io.riddles.aion.engine.AionEngine;
  */
 public class Transaction {
 
+    private int id;
     private Network from;
     private Network to;
     private ArrayList<Bridge> currentBridges; // possibly on bridges owned by different players
     private Network currentNetwork;
     private Network previousNetwork;
     private double travelCompletion;
+    private boolean completed;
 
-    public Transaction(Network from, Network to) {
+    public Transaction(int id, Network from, Network to) {
+        this.id = id;
         this.from = from;
         this.to = to;
         this.currentBridges = new ArrayList<>();
         this.currentNetwork = from;
         this.previousNetwork = null;
         this.travelCompletion = 0;
+        this.completed = false;
     }
 
     public Transaction(Transaction transaction, AionField field) {
+        this.id = transaction.id;
         this.from = field.findNetwork(transaction.from.getCode());
         this.to = field.findNetwork(transaction.to.getCode());
         this.currentNetwork = transaction.currentNetwork != null
@@ -64,6 +69,7 @@ public class Transaction {
                 ? field.findNetwork(transaction.previousNetwork.getCode())
                 : null;
         this.travelCompletion = transaction.travelCompletion;
+        this.completed = transaction.completed;
     }
 
     public boolean moveAlongBridge() {
@@ -103,6 +109,10 @@ public class Transaction {
         return String.format("%s:%s-%s", fromTo, side1, side2);
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public Network getFrom() {
         return this.from;
     }
@@ -138,5 +148,13 @@ public class Transaction {
 
     public Network getPreviousNetwork() {
         return this.previousNetwork;
+    }
+
+    public void setCompleted() {
+        this.completed = true;
+    }
+
+    public boolean isCompleted() {
+        return this.completed;
     }
 }

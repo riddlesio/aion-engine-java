@@ -65,6 +65,7 @@ public class AionStateSerializer extends AbstractSerializer<AionState> {
         for (Bridge bridge : bridges) {
             JSONObject bridgeObject = new JSONObject();
 
+            bridgeObject.put("id", bridge.getId());
             bridgeObject.put("player", bridge.getPlayerId());
             bridgeObject.put("fee", bridge.getFee());
             bridgeObject.put("sides", visitSides(bridge.getSides()));
@@ -100,6 +101,7 @@ public class AionStateSerializer extends AbstractSerializer<AionState> {
                     ? transaction.getCurrentNetwork().getCode()
                     : transaction.getCurrentBridges().get(0).toSimpleString();
 
+            transactionObject.put("id", transaction.getId());
             transactionObject.put("from", transaction.getFrom().getCode());
             transactionObject.put("to", transaction.getTo().getCode());
             transactionObject.put("current", current);

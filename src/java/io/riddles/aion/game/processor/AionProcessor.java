@@ -51,13 +51,12 @@ public class AionProcessor extends SimpleProcessor<AionState, AionPlayer> {
         AionState nextState = inputState.createNextState(roundNumber);
         AionField field = nextState.getField();
 
-        if (roundNumber > 1) {
-            field.spawnTransactions(AionEngine.configuration.getInt("transactionRate"));
-        }
+        field.spawnTransactions(AionEngine.configuration.getInt("transactionRate"));
 
         sendUpdates(nextState);
         processMoves(nextState);
 
+        field.removeCompleteTransactions();
         field.moveTransactions(nextState);
 
         return nextState;

@@ -28,15 +28,36 @@
     "name": "Cardano",
     "code": "ADA",
     "position": {
-      "x": 5,
+      "x": 3,
       "y": 20
     }
   }, {
     "name": "NEO",
     "code": "NEO",
     "position": {
-      "x": 21,
-      "y": 15
+      "x": 22,
+      "y": 18
+    }
+  }, {
+    "name": "Bitcoin Cash",
+    "code": "BCH",
+    "position": {
+      "x": 31,
+      "y": 20
+    }
+  }, {
+    "name": "EOS",
+    "code": "EOS",
+    "position": {
+      "x": 10,
+      "y": 12
+    }
+  }, {
+    "name": "Litecoin",
+    "code": "LTC",
+    "position": {
+      "x": 22,
+      "y": 10
     }
   }]
 }
